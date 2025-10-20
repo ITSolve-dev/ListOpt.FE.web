@@ -1,0 +1,26 @@
+smol = true
+logLevel = "debug" # "debug" | "warn" | "error"
+
+[test]
+root = "./tests/unit"
+smol = true
+coverage = true
+preload = ["./tests/unit/setup.ts"]
+coverageReporter  = ["text", "lcov"]  # default ["text"]
+coverageDir = "coverage/"  # default "coverage"
+coverageThreshold = { line = 0.7, function = 0.8, statement = 0.9 }
+randomize = true
+seed = 2444615283
+rerunEach = 3
+coveragePathIgnorePatterns = [
+  "**/*.spec.ts",
+  "**/*.test.ts",
+  "*.config.js"
+]
+
+[run]
+# equivalent to `bun --bun` for all `bun run` commands
+bun = true
+
+[install]
+frozen-lockfile = true

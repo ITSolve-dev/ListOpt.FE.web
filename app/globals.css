@@ -1,0 +1,78 @@
+@layer theme, base, mui, components, utilities;
+@import 'tailwindcss' prefix(tw);
+@import './theme.css';
+@import './toastify.css';
+
+/* Material UI base styles */
+@layer base {
+  h1 {
+    font: var(--mui-font-h1);
+    letter-spacing: -0.01562em;
+  }
+  h2 {
+    font: var(--mui-font-h2);
+    letter-spacing: -0.00833em;
+  }
+  h3 {
+    font: var(--mui-font-h3);
+  }
+  h4 {
+    font: var(--mui-font-h4);
+    letter-spacing: 0.00735em;
+  }
+  h5 {
+    font: var(--mui-font-h5);
+  }
+  h6 {
+    font: var(--mui-font-h6);
+    letter-spacing: 0.0075em;
+  }
+  p {
+    font: var(--mui-font-body1);
+    letter-spacing: 0.00938em;
+  }
+  span {
+    font: var(--mui-font-body2);
+    letter-spacing: 0.01071em;
+  }
+}
+
+/* Material UI typography utilities */
+@utility typography-* {
+  font: --value(--font- *);
+}
+
+/* Material UI overlay utilities */
+@utility overlay-* {
+  background-image: --value(--overlay- *);
+}
+
+/* Material UI elevation utilities */
+@utility elevation-* {
+  background-image: --value(--overlay- *);
+  box-shadow: --value(--shadow- *);
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 0 blue inset !important;
+  -webkit-text-fill-color: inherit !important;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.modal-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  background-color: var(--mui-palette-background-paper);
+  box-shadow: var(--mui-shadows-24);
+  border-radius: calc(var(--mui-shape-borderRadius) * 2);
+  padding: 50px;
+}

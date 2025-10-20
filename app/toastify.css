@@ -1,0 +1,77 @@
+:root {
+	--toastify-color-light: #fff;
+	--toastify-color-dark: #121212;
+	--toastify-color-info: var(--mui-palette-Alert-infoStandardBg);
+	--toastify-color-success: var(--mui-palette-Alert-successStandardBg);
+	--toastify-color-warning: var(--mui-palette-Alert-warningStandardBg);
+	--toastify-color-error: var(--mui-palette-Alert-errorStandardBg);
+	--toastify-color-transparent: rgba(255, 255, 255, 0.7);
+
+	--toastify-icon-color-info: var(--mui-palette-Alert-infoIconColo);
+	--toastify-icon-color-success: var(--mui-palette-Alert-successIconColo);
+	--toastify-icon-color-warning: var(--mui-palette-Alert-warningIconColo);
+	--toastify-icon-color-error: var(--mui-palette-Alert-errorIconColo);
+
+	--toastify-container-width: fit-content;
+	--toastify-toast-width: 320px;
+	--toastify-toast-offset: 16px;
+	--toastify-toast-top: max(
+		var(--toastify-toast-offset),
+		env(safe-area-inset-top)
+	);
+	--toastify-toast-right: max(
+		var(--toastify-toast-offset),
+		env(safe-area-inset-right)
+	);
+	--toastify-toast-left: max(
+		var(--toastify-toast-offset),
+		env(safe-area-inset-left)
+	);
+	--toastify-toast-bottom: max(
+		var(--toastify-toast-offset),
+		env(safe-area-inset-bottom)
+	);
+	--toastify-toast-background: var(--mui-palette-background-paper);
+	--toastify-toast-padding: 14px;
+	--toastify-toast-min-height: 64px;
+	--toastify-toast-max-height: 800px;
+	--toastify-toast-bd-radius: var(--mui-shape-borderRadius);
+	--toastify-toast-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+	--toastify-font-family: var(--font-roboto) sans-serif;
+	--toastify-z-index: 9999;
+	--toastify-text-color-light: #757575;
+	--toastify-text-color-dark: #fff;
+
+	/* Used only for colored theme */
+	--toastify-text-color-info: var(--mui-palette-Alert-infoColor);
+	--toastify-text-color-success: var(--mui-palette-Alert-successColor);
+	--toastify-text-color-warning: var(--mui-palette-Alert-warningColor);
+	--toastify-text-color-error: var(--mui-palette-Alert-errorColor);
+
+	--toastify-spinner-color: #616161;
+	--toastify-spinner-color-empty-area: #e0e0e0;
+	--toastify-color-progress-light: linear-gradient(
+		to right,
+		#4cd964,
+		#5ac8fa,
+		#007aff,
+		#34aadc,
+		#5856d6,
+		#ff2d55
+	);
+	--toastify-color-progress-dark: #bb86fc;
+	--toastify-color-progress-info: var(--mui-palette-info-dark);
+	--toastify-color-progress-success: var(--mui-palette-success-dark);
+	--toastify-color-progress-warning: var(--mui-palette-warning-dark);
+	--toastify-color-progress-error: var(--mui-palette-error-dark);
+	/* used to control the opacity of the progress trail */
+	--toastify-color-progress-bgo: 0.2;
+}
+
+/** colored notifications share the same progress bar color **/
+.Toastify__progress-bar-theme--colored.Toastify__progress-bar--info,
+.Toastify__progress-bar-theme--colored.Toastify__progress-bar--success,
+.Toastify__progress-bar-theme--colored.Toastify__progress-bar--warning,
+.Toastify__progress-bar-theme--colored.Toastify__progress-bar--error {
+	background: var(--mui-palette-LinearProgress-primaryBg);
+}
