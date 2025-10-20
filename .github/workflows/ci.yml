@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint-format:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
+        with:
+          version: latest
+      - name: Run Biome
+        run: biome ci .
+
+  fsd-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Bun install
+        uses: ITSolve-dev/BackOffice.GitHubActions/.github/actions/bun-install@main
+      - name: Run fsd check
+        run: bun fsd-lint
+
+  commits:
+    uses: ITSolve-dev/BackOffice.GitHubActions/.github/workflows/commit-lint.yml@main
+    needs: lint-format
+    permissions:
+      contents: read
+      pull-requests: read
+
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Bun install
+        uses: ITSolve-dev/BackOffice.GitHubActions/.github/actions/bun-install@main
+      - name: Run unit tests
+        run: bun run test --bail
+      - name: Upload coverage report
+        uses: ITSolve-dev/BackOffice.GitHubActions/.github/actions/coverage@main
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  docker-build:
+    needs: [lint-format, commits, unit-tests]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Docker build
+        uses: ITSolve-dev/BackOffice.GitHubActions/.github/actions/check-docker-build@main

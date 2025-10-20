@@ -1,0 +1,24 @@
+feature:
+  - head-branch: ['^feature/']
+
+release:
+  - head-branch: ['^release/']
+
+bug:
+  - head-branch: ['^bug/']
+
+hotfix:
+  - head-branch: ['^hotfix/']
+
+infra:
+  - head-branch: ['^infra/']
+
+tests:
+  - all:
+      - changed-files:
+          - any-glob-to-any-file: 'tests/**/*'
+
+source:
+  - all:
+      - changed-files:
+          - any-glob-to-any-file: 'src/**/*'

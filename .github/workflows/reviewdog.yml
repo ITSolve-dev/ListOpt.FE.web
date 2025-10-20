@@ -1,0 +1,25 @@
+name: Reviewdog
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  reviewdog:
+    uses: ITSolve-dev/BackOffice.GitHubActions/.github/workflows/reviewdog.yml@main
+    permissions:
+      contents: read
+      pull-requests: write
+  biome:
+    name: runner / Biome
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: mongolyy/reviewdog-action-biome@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review

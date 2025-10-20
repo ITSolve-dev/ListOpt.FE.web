@@ -1,0 +1,98 @@
+name: Playwright Template
+on:
+  workflow_call:
+    inputs:
+      run-command:
+        description: The command to run
+        required: true
+        type: string
+      users-url:
+        type: string
+        required: false
+        description: Users API url
+        default: http://localhost:8001/api/v1
+      catalog-url:
+        type: string
+        required: false
+        description: Users API url
+        default: http://localhost:8002/api/v1
+
+permissions:
+  packages: read
+  contents: read
+
+jobs:
+  run:
+    services:
+      users:
+        image: ghcr.io/3kdportal/users
+        ports:
+          - 8001:8000
+        env:
+          MODE: prod
+          SERVER__ROOT_PATH: '/api'
+          DATABASE__HOST: postgres
+          DATABASE__PORT: 5432
+          DATABASE__USER: postgres
+          DATABASE__PASSWORD: postgres
+          DATABASE__NAME: users
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: users
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shardIndex: [1, 2, 3, 4]
+        shardTotal: [4]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bun install
+        uses: ./.github/actions/bun-install
+      - name: Build
+        uses: ./.github/actions/build
+      - name: Setup databases
+        env:
+          PGPASSWORD: postgres
+        run: psql -h localhost -d users -U postgres -f ./tests/automation/db/dumps/dump-users-1.sql
+      - name: Setup playwright
+        uses: ./.github/actions/playwright-setup
+      - name: Run Playwright tests
+        run: ${{ inputs.run-command }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+        env:
+          API_USERS_URL: ${{ inputs.users-url }}
+          API_CATALOG_URL: ${{ inputs.catalog-url }}
+      - name: Upload blob report to GitHub Actions Artifacts
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: blob-report-${{ matrix.shardIndex }}
+          path: blob-report
+          retention-days: 1
+      - name: Upload accessibility report to GitHub Actions Artifacts
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: accessibility-report-${{ matrix.shardIndex }}
+          path: accessibility-report
+          retention-days: 1
+  merge-reports:
+    runs-on: ubuntu-latest
+    needs: [run]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Merge and upload reports
+        if: ${{ !cancelled() }}
+        uses: ./.github/actions/playwright-merge-and-upload-reports

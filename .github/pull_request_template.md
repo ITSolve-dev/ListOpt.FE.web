@@ -1,0 +1,4 @@
+- [ ] Issue ID is present in PR name
+- [ ] Name convention of commits and meaningful
+- [ ] CI pipeling is green
+- [ ] One approvals
