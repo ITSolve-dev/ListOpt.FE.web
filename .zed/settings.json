@@ -1,0 +1,26 @@
+{
+  "language_servers": ["!eslint", "!prettier", "!vtsls", "biome", "..."],
+  "code_actions_on_format": {
+    "source.fixAll.biome": true,
+    "source.organizeImports.biome": true,
+    "source.removeUnusedImports.ts": false,
+    "source.action.useSortedKeys.biome": true
+  },
+  "formatter": {
+    "language_server": {
+      "name": "biome"
+    }
+  },
+  "languages": {
+    "JavaScript": {
+      "tab_size": 4,
+      "formatter": "language_server",
+      "format_on_save": "on"
+    },
+    "TSX": {
+      "tab_size": 4,
+      "formatter": "language_server",
+      "format_on_save": "on"
+    }
+  }
+}
